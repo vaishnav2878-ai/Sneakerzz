@@ -3,13 +3,17 @@ const helmet= require("helmet");
 const cors = require("cors");
 
 const app = express();
-
-app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://sneakerzz-kqkrbl7jj-vaishnav2878-ais-projects.vercel.app",
+      "https://sneakerzz-murex.vercel.app",
+    ],
+    credentials: true,
   })
 );
+
 
 //app.use(helmet());
 
