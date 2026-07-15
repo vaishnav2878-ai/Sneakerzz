@@ -49,12 +49,20 @@ app.use(
 );
 app.use("/api/dashboard",dashboardRoutes);
 app.use("/api/contact", contactRoutes);
+app.use(express.json());
 
 
 
 
 app.get("/", (req, res) => {
   res.send("Storyn API Running...");
+});
+app.use((req, res, next) => {
+  console.log("METHOD:", req.method);
+  console.log("URL:", req.url);
+  console.log("CONTENT-TYPE:", req.headers["content-type"]);
+  console.log("BODY:", req.body);
+  next();
 });
 
 module.exports = app;
