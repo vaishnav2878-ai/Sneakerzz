@@ -1,3 +1,7 @@
+import EmptyState from "../components/EmptyState";
+import emptyCart from "../assets/images/empty-cart.png";
+
+
 import {
   useEffect,
   useState,
@@ -122,10 +126,14 @@ function Cart() {
       </h1>
 
       {cartItems.length === 0 ? (
-        <h2>
-          Cart is Empty
-        </h2>
-      ) : (
+  <EmptyState
+    image={emptyCart}
+    title="Your Cart is Empty"
+    description="Looks like you haven't added any sneakers yet. Start exploring our latest collection."
+    buttonText="Shop Now"
+    buttonLink="/products"
+  />
+) : (
         <>
           {cartItems.map((item) => (
   <div

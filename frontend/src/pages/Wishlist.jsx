@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import EmptyState from "../components/EmptyState";
+import emptyWishlist from "../assets/images/empty-wishlist.png";
+
 
 import {
   getWishlist,
@@ -63,10 +66,16 @@ function Wishlist() {
     <h1 className="text-2xl sm:text-3xl font-bold mb-6">
       My Wishlist
     </h1>
-
-    {wishlistItems.length === 0 ? (
-      <h2>Wishlist Empty</h2>
-    ) : (
+{wishlistItems.length === 0 ? (
+  <EmptyState
+    image={emptyWishlist}
+    title="Your Wishlist is Empty"
+    description="Looks like you haven't added any sneakers to your wishlist yet. Save your favourite sneakers and shop later."
+    buttonText="Explore Sneakers"
+    buttonLink="/products"
+  />
+) : (
+    
       wishlistItems.map((item) => (
         <div
           key={item._id}
