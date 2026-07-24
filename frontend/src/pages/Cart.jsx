@@ -1,4 +1,5 @@
 import EmptyState from "../components/EmptyState";
+
 import emptyCart from "../assets/images/empty-cart.png";
 
 
@@ -118,20 +119,16 @@ function Cart() {
       </h1>
     );
   }
+  
 
   return (
 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-<h1 className="text-2xl sm:text-3xl font-bold mb-6">
-        My Cart
-      </h1>
 
-      {cartItems.length === 0 ? (
+
+{cartItems.length === 0 ? (
   <EmptyState
     image={emptyCart}
-    title="Your Cart is Empty"
-    description="Looks like you haven't added any sneakers yet. Start exploring our latest collection."
-    buttonText="Shop Now"
-    buttonLink="/products"
+    link="/products"
   />
 ) : (
         <>

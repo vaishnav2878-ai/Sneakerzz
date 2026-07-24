@@ -1,33 +1,15 @@
 import { Link } from "react-router-dom";
 
-function EmptyState({
-  image,
-  title,
-  description,
-  buttonText,
-  buttonLink,
-}) {
+function EmptyState({ image }) {
   return (
-    <div className="flex flex-col items-center justify-center py-20">
-      <img
-        src={image}
-        alt={title}
-        className="w-72 md:w-96"
-      />
-
-      <h2 className="text-3xl font-bold mt-6">
-        {title}
-      </h2>
-
-      <p className="text-gray-500 mt-3 text-center max-w-md">
-        {description}
-      </p>
-
-      <Link
-        to={buttonLink}
-        className="mt-8 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg transition"
-      >
-        {buttonText}
+    <div className="min-h-[70vh] flex items-center justify-center px-4 py-8">
+      <Link to="/">
+        <img
+          src={image}
+          alt="Empty State"
+          className="w-64 sm:w-72 md:w-80 lg:w-[420px] xl:w-[480px] object-contain cursor-pointer transition-all duration-300 hover:scale-105"
+          draggable="false"
+        />
       </Link>
     </div>
   );

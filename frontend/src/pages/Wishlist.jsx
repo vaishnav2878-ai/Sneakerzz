@@ -63,17 +63,10 @@ function Wishlist() {
 
   return (
   <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-    <h1 className="text-2xl sm:text-3xl font-bold mb-6">
-      My Wishlist
-    </h1>
+    
 {wishlistItems.length === 0 ? (
-  <EmptyState
-    image={emptyWishlist}
-    title="Your Wishlist is Empty"
-    description="Looks like you haven't added any sneakers to your wishlist yet. Save your favourite sneakers and shop later."
-    buttonText="Explore Sneakers"
-    buttonLink="/products"
-  />
+ <EmptyState image={emptyWishlist}
+ link="/products" />
 ) : (
     
       wishlistItems.map((item) => (

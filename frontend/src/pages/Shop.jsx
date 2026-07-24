@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
-import { getProducts } from "../services/productService";
-
+import {
+  getProducts,
+  getLatestProducts,
+} from "../services/productService";
 function Shop() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,28 +13,40 @@ function Shop() {
   const [searchParams] = useSearchParams();
 
   const fetchProducts = async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const search = searchParams.get("search") || "";
-      const gender = searchParams.get("gender") || "";
-      const brand = searchParams.get("brand") || "";
-      const category = searchParams.get("category") || "";
+    const search = searchParams.get("search") || "";
+    const gender = searchParams.get("gender") || "";
+    const brand = searchParams.get("brand") || "";
+    const category = searchParams.get("category") || "";
+    const bestSeller = searchParams.get("bestSeller") || "";
+    const featured = searchParams.get("featured") || "";
+    const newArrival = searchParams.get("newArrival") || "";
 
-      const data = await getProducts({
+    let data;
+
+    if (newArrival === "true") {
+      data = await getLatestProducts();
+    } else {
+      data = await getProducts({
         search,
         gender,
         brand,
         category,
+        bestSeller,
+        featured,
       });
-
-      setProducts(data.products);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
     }
-  };
+
+    setProducts(data.products);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
+  
 
   useEffect(() => {
     fetchProducts();

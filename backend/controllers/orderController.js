@@ -251,6 +251,11 @@ const updateOrderStatus = async (req, res) => {
 
     order.orderStatus = status;
 
+    // COD Payment Update
+    if (status === "Delivered") {
+      order.paymentStatus = "Paid";
+    }
+
     await order.save();
 
     res.status(200).json({
@@ -259,13 +264,13 @@ const updateOrderStatus = async (req, res) => {
       order,
     });
   } catch (error) {
-  console.log(error);
+    console.log(error);
 
-  res.status(500).json({
-    success: false,
-    message: error.message,
-  });
-}
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 module.exports = {
   createOrder,

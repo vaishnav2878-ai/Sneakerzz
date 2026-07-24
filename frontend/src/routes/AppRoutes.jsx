@@ -29,6 +29,7 @@ import Contact from "../pages/Contact";
 import AdminMessages from "../pages/AdminMessages";
 import Privacy from "../pages/Privacy";
 import Terms from "../pages/Terms";
+import Offers from "../pages/Offers";
 function AppRoutes() {
   return (
     <Routes>
@@ -41,6 +42,7 @@ function AppRoutes() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/offers" element={<Offers />} />
 
         <Route
           path="/profile"

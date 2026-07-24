@@ -1,6 +1,9 @@
 const express = require("express");
 const { createProduct,
     getProducts,
+      getBestSellerProducts,
+      getLatestProducts, 
+    getOfferProducts,
     getSearchSuggestions,
     getSingleProduct,
     updateProduct,
@@ -23,6 +26,9 @@ router.get(
   "/suggestions",
   getSearchSuggestions
 );
+router.get("/offers", getOfferProducts);
+router.get("/best-sellers", getBestSellerProducts);
+router.get("/latest", getLatestProducts);
 router.get("/:id", getSingleProduct);
 router.put(
   "/:id",
@@ -52,4 +58,5 @@ router.put(
   admin,
   toggleProductStatus
 );
+
 module.exports = router;

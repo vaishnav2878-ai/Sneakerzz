@@ -1,32 +1,38 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getOfferProducts } from "../services/productService";
 
-function SaleBanner({ products = [] }) {
-  const offerProducts = products
-  .map((product) => ({
+function SaleBanner() {
+  const [offerProducts, setOfferProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const data = await getOfferProducts();
+        setOfferProducts(data.products);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchOffers();
+  }, []);
+
+  const productsWithDiscount = offerProducts.map((product) => ({
     ...product,
     discount: Math.round(
-      ((product.price - product.discountPrice) /
-        product.price) *
-        100
+      ((product.price - product.discountPrice) / product.price) * 100
     ),
-  }))
-  .filter(
-    (product) =>
-      product.discountPrice > 0 &&
-      product.discount > 0
-  )
-  .sort((a, b) => b.discount - a.discount)
-  .slice(0, 3);
-  
+  }));
+
   const maxDiscount =
-    offerProducts.length > 0
-      ? offerProducts[0].discount
+    productsWithDiscount.length > 0
+      ? Math.max(...productsWithDiscount.map((p) => p.discount))
       : 50;
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
       <div className="bg-black rounded-3xl overflow-hidden">
-
         <div className="grid lg:grid-cols-2 gap-10 items-center">
 
           {/* Left */}
@@ -48,7 +54,7 @@ function SaleBanner({ products = [] }) {
             </p>
 
             <Link
-              to="/shop"
+              to="/offers"
               className="inline-block mt-10 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-full transition"
             >
               Shop Now →
@@ -57,15 +63,17 @@ function SaleBanner({ products = [] }) {
 
           {/* Right */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 p-8">
-
-            {offerProducts.length > 0 ? (
-              offerProducts.slice(0, 3).map((product) => (
+            {productsWithDiscount.length > 0 ? (
+              productsWithDiscount.slice(0, 3).map((product) => (
                 <div
                   key={product._id}
                   className="bg-white rounded-2xl p-4 text-center hover:scale-105 transition duration-300"
                 >
                   <img
-                    src={product.images?.[0]}
+                    src={
+                      product.images?.[0] ||
+                      "https://via.placeholder.com/300x300?text=No+Image"
+                    }
                     alt={product.name}
                     className="w-full h-48 object-contain"
                   />
@@ -86,11 +94,9 @@ function SaleBanner({ products = [] }) {
                 </p>
               </div>
             )}
-
           </div>
 
         </div>
-
       </div>
     </section>
   );

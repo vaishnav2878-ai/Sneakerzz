@@ -47,9 +47,7 @@ function Footer() {
                 New Arrivals
               </Link>
 
-              <Link to="/shop?bestSeller=true" className="block hover:text-orange-500">
-                Best Sellers
-              </Link>
+              
             </div>
           </div>
 

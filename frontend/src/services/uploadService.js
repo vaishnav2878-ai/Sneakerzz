@@ -1,6 +1,7 @@
 import axiosInstance from "./axiosInstance";
 
 export const uploadImage = async (image, token) => {
+  console.log("BASE URL:", axiosInstance.defaults.baseURL);
   console.log("UPLOAD TOKEN:", token);
 
   const formData = new FormData();

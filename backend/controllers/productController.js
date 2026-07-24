@@ -402,9 +402,114 @@ const toggleProductStatus = async (req, res) => {
     });
   }
 };
+const getOfferProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ status: true })
+      .populate("brand")
+      .populate("category");
+
+    const offerProducts = products.filter((product) => {
+      if (
+        !product.discountPrice ||
+        product.discountPrice >= product.price
+      ) {
+        return false;
+      }
+
+      const discountPercentage =
+        ((product.price - product.discountPrice) / product.price) * 100;
+
+      return discountPercentage >= 40;
+    });
+
+    res.status(200).json({
+      success: true,
+      count: offerProducts.length,
+      products: offerProducts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+const Order = require("../models/orderModel");
+
+const getBestSellerProducts = async (req, res) => {
+  try {
+    const bestSellers = await Order.aggregate([
+      {
+        $match: {
+          orderStatus: { $ne: "Cancelled" },
+        },
+      },
+      {
+        $unwind: "$orderItems",
+      },
+      {
+        $group: {
+          _id: "$orderItems.product",
+          totalSold: {
+            $sum: "$orderItems.quantity",
+          },
+        },
+      },
+      {
+        $sort: {
+          totalSold: -1,
+        },
+      },
+      {
+        $limit: 8,
+      },
+    ]);
+
+const products = (
+  await Product.populate(bestSellers, {
+    path: "_id",
+    populate: [
+      { path: "brand" },
+      { path: "category" },
+    ],
+  })
+).filter((item) => item._id);
+
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+const getLatestProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ status: true })
+      .populate("brand")
+      .populate("category")
+      .sort({ createdAt: -1 })
+      .limit(8);
+
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createProduct,
   getProducts,
+  getOfferProducts,
   getSearchSuggestions,
   getSingleProduct,
   updateProduct,
@@ -413,4 +518,7 @@ module.exports = {
   updateReview,
   deleteReview,
   toggleProductStatus,
+  getBestSellerProducts,
+  getLatestProducts,
+
 };

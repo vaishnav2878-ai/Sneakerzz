@@ -103,3 +103,15 @@ export const getSuggestions = async (search) => {
 
   return response.data;
 };
+export const getOfferProducts = async () => {
+  const response = await axiosInstance.get("/products/offers");
+  return response.data;
+};
+export const getBestSellerProducts = async () => {
+  const response = await axiosInstance.get("/products/best-sellers");
+  return response.data;
+};
+export const getLatestProducts = async () => {
+  const response = await axiosInstance.get("/products/latest");
+  return response.data;
+};
